@@ -1,2 +1,75 @@
 ---
-# tasks file for ansible-role-cri_o
+
+- name: Get Cri-o apt-key
+  apt_key: 
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key
+    state: present
+
+- name: Get Cri-o apt-key
+  apt_key: 
+    url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.25/Debian_11/Release.key
+    state: present
+
+- name: Add Cri-o stable repo
+  apt_repository:
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /
+    state: present
+    filename: cri-o-stable
+
+- name: Add Cri-o stable repo
+  apt_repository:
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/Debian_11/1.25/ /
+    state: present
+    filename: cri-o-1.25
+
+- name: Hold linux kernel
+  dpkg_selections:
+    name: linux-image-amd64
+    selection: hold
+
+- name: Hold glibc
+  dpkg_selections:
+    name: glibc
+    selection: hold
+
+- name: update apt
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: install required packages
+  apt:
+    name: "{{ packages }}"
+    update_cache: true
+    state: present
+  vars:
+    packages:
+      - cri-o
+      - cri-tools
+      - cri-o-runc
+      - runc
+
+#- name: "Put storage template"
+#  template:
+#    src: storage.conf.j2
+#    dest: /etc/containers/storage.conf
+#    mode: 0777
+
+- name: Reload configs
+  systemd: daemon_reload=yes
+
+- name: Enable Cri-o Service
+  systemd:
+    name: crio
+    enabled: yes
+
+- name: Restart Cri-o
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: crio
+
+- name: Make sure a crio is running
+  systemd:
+    state: started
+    name: crio
