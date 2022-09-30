@@ -1,12 +1,12 @@
 ---
 
 - name: Get Cri-o apt-key
-  apt_key: 
+  apt_key:
     url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key
     state: present
 
 - name: Get Cri-o apt-key
-  apt_key: 
+  apt_key:
     url: https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:1.25/Debian_11/Release.key
     state: present
 
@@ -18,7 +18,7 @@
 
 - name: Add Cri-o stable repo
   apt_repository:
-    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/Debian_11/1.25/ /
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.25/Debian_11/ /
     state: present
     filename: cri-o-1.25
 
