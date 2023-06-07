@@ -23,21 +23,6 @@
     state: present
     filename: cri-o-1.25
 
-- name: Hold linux kernel
-  dpkg_selections:
-    name: linux-image-amd64
-    selection: hold
-
-- name: Hold glibc
-  dpkg_selections:
-    name: glibc
-    selection: hold
-
-- name: update apt
-  apt:
-    update_cache: yes
-    cache_valid_time: 3600
-
 - name: install required packages
   apt:
     name: "{{ packages }}"
@@ -49,12 +34,6 @@
       - cri-tools
       - cri-o-runc
       - runc
-
-#- name: "Put storage template"
-#  template:
-#    src: storage.conf.j2
-#    dest: /etc/containers/storage.conf
-#    mode: 0777
 
 - name: Reload configs
   systemd: daemon_reload=yes
