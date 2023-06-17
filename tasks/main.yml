@@ -20,7 +20,7 @@
   apt_repository:
     repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.27/Debian_11/ /
     state: present
-    filename: cri-o-1.25
+    filename: cri-o-1.27
 
 - name: install required packages
   apt:
