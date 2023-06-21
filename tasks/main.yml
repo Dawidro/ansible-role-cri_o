@@ -32,9 +32,9 @@
       - cri-tools
       - cri-o-runc
 
-- name: remove 100-crio-bridge.conf
+- name: remove 100-crio-bridge.conflist
   file:
-    path: "/etc/cni/net.d/100-crio-bridge.conf"
+    path: "/etc/cni/net.d/100-crio-bridge.conflist"
     state: "absent"
 
 - name: Reload configs
