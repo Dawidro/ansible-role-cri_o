@@ -32,10 +32,17 @@
       - cri-tools
       - cri-o-runc
 
-- name: remove 100-crio-bridge.conflist
-  file:
-    path: "/etc/cni/net.d/100-crio-bridge.conflist"
-    state: "absent"
+#- name: remove 100-crio-bridge.conflist
+#  file:
+#    path: "/etc/cni/net.d/100-crio-bridge.conflist"
+#    state: "absent"
+
+- name: Replace string for 172.16.x.x network
+  become_user: vmadmin
+  replace:
+    path: /etc/cni/net.d/100-crio-bridge.conflist
+    regexp: '10.85.0.0'
+    replace: '172.16.0.0'
 
 - name: Reload configs
   systemd: daemon_reload=yes
