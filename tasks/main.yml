@@ -1,66 +1,59 @@
 ---
-- name: block to set become=yes on all role tasks
-  become: yes
-  block:
-  - name: Get Cri-o apt-key
-    apt_key:
-      url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key
-      state: present
+- name: Get Cri-o apt-key
+  apt_key:
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key
+    state: present
 
-  - name: Get Cri-o apt-key
-    apt_key:
-      url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.27:/1.27.0/Debian_11/Release.key
-      state: present
+- name: Get Cri-o apt-key
+  apt_key:
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.27:/1.27.0/Debian_11/Release.key
+    state: present
 
-  - name: Add Cri-o stable repo
-    apt_repository:
-      repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /
-      state: present
-      filename: cri-o-stable
+- name: Add Cri-o stable repo
+  apt_repository:
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /
+    state: present
+    filename: cri-o-stable
 
-  - name: Add Cri-o stable repo
-    apt_repository:
-      repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.27/Debian_11/ /
-      state: present
-      filename: cri-o-1.27
+- name: Add Cri-o stable repo
+  apt_repository:
+    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.27/Debian_11/ /
+    state: present
+    filename: cri-o-1.27
 
-  - name: install required packages
-    apt:
-      name: "{{ packages }}"
-      update_cache: true
-      state: present
-    vars:
-      packages:
-        - cri-o
-        - cri-tools
-        - cri-o-runc
+- name: install required packages
+  apt:
+    name: "{{ packages }}"
+    update_cache: true
+    state: present
+  vars:
+    packages:
+      - cri-o
+      - cri-tools
+      - cri-o-runc
 
-#- name: remove 100-crio-bridge.conflist
-#  file:
-#    path: "/etc/cni/net.d/100-crio-bridge.conflist"
-#    state: "absent"
 
-  - name: Replace string for 172.16.x.x network
-    replace:
-      path: /etc/cni/net.d/100-crio-bridge.conflist
-      regexp: '10.85.0.0'
-      replace: '172.16.0.0'
+- name: Replace string for 172.16.x.x network
+  replace:
+    path: /etc/cni/net.d/100-crio-bridge.conflist
+    regexp: '10.85.0.0'
+    replace: '172.16.0.0'
 
-  - name: Reload configs
-    systemd: daemon_reload=yes
+- name: Reload configs
+  systemd: daemon_reload=yes
 
-  - name: Enable Cri-o Service
-    systemd:
-      name: crio
-      enabled: yes
+- name: Enable Cri-o Service
+  systemd:
+    name: crio
+    enabled: yes
 
-  - name: Restart Cri-o
-    systemd:
-      state: restarted
-      daemon_reload: yes
-      name: crio
+- name: Restart Cri-o
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: crio
 
-  - name: Make sure a crio is running
-    systemd:
-      state: started
-      name: crio
+- name: Make sure a crio is running
+  systemd:
+    state: started
+    name: crio
