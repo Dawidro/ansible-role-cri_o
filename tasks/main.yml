@@ -1,5 +1,4 @@
 ---
-
 - name: Get Cri-o apt-key
   apt_key:
     url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key
@@ -32,7 +31,11 @@
       - cri-o
       - cri-tools
       - cri-o-runc
-      - runc
+
+- name: remove 100-crio-bridge.conf
+  file:
+    path: "/etc/cni/net.d/100-crio-bridge.conf"
+    state: "absent"
 
 - name: Reload configs
   systemd: daemon_reload=yes
