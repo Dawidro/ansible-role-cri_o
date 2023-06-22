@@ -21,6 +21,11 @@
     state: present
     filename: cri-o-1.27
 
+- name: update apt
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
 - name: install required packages
   apt:
     name: "{{ packages }}"
