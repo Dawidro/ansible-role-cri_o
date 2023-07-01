@@ -41,6 +41,16 @@
 - name: Reload configs
   systemd: daemon_reload=yes
 
+- name: remove 100-crio-bridge.conflist
+  file:
+    path: "/etc/cni/net.d/100-crio-bridge.conflist"
+    state: "absent"
+
+- name: remove 100-crio-bridge.conflist
+  file:
+    path: "/etc/cni/net.d/200-loopback.conflist"
+    state: "absent"
+
 - name: Enable CRI-O Service
   systemd:
     name: crio
