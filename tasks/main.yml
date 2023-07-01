@@ -1,22 +1,22 @@
 ---
 
-- name: Get Cri-o apt-key
+- name: Get CRI-O apt-key
   apt_key:
     url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key
     state: present
 
-- name: Get Cri-o apt-key
+- name: Get CRI-O apt-key
   apt_key:
     url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.27:/1.27.0/Debian_11/Release.key
     state: present
 
-- name: Add Cri-o stable repo
+- name: Add CRI-O stable repo
   apt_repository:
     repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /
     state: present
     filename: cri-o-stable
 
-- name: Add Cri-o stable repo
+- name: Add CRI-O stable repo
   apt_repository:
     repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.27/Debian_11/ /
     state: present
@@ -37,23 +37,16 @@
       - cri-o
       - cri-tools
       - cri-o-runc
-      - runc
 
 - name: Reload configs
   systemd: daemon_reload=yes
 
-- name: Enable Cri-o Service
+- name: Enable CRI-O Service
   systemd:
     name: crio
     enabled: yes
 
-- name: Restart Cri-o
-  systemd:
-    state: restarted
-    daemon_reload: yes
-    name: crio
-
-- name: Make sure a crio is running
+- name: Starting CRI-O is running
   systemd:
     state: started
     name: crio
