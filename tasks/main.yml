@@ -46,7 +46,7 @@
     name: crio
     enabled: yes
 
-- name: Starting CRI-O is running
+- name: Start CRI-O
   systemd:
     state: started
     name: crio
