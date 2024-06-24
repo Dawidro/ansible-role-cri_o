@@ -1,26 +1,16 @@
 ---
+- name: Add CRI-O apt repository key.
+  ansible.builtin.get_url:
+    url: "https://pkgs.k8s.io/addons:/cri-o:/v1.29/deb/Release.key "
+    dest: /etc/apt/trusted.gpg.d/cri-o.asc
+    mode: '0644'
+    force: true
 
-- name: Get CRI-O apt-key
-  apt_key:
-    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/Release.key
+- name: Add CRI-O apt repository.
+  ansible.builtin.apt_repository:
+    repo: "https://pkgs.k8s.io/addons:/cri-o:/v1.29/deb/ /"
     state: present
 
-- name: Get CRI-O apt-key
-  apt_key:
-    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.28:/1.28.0/Debian_11/Release.key
-    state: present
-
-- name: Add CRI-O stable repo
-  apt_repository:
-    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/ /
-    state: present
-    filename: cri-o-stable
-
-- name: Add CRI-O stable repo
-  apt_repository:
-    repo: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.28/Debian_11/ /
-    state: present
-    filename: cri-o-1.28
 
 - name: update apt
   apt:
@@ -36,7 +26,6 @@
     packages:
       - cri-o
       - cri-tools
-      - cri-o-runc
 
 - name: Reload configs
   systemd: daemon_reload=yes
