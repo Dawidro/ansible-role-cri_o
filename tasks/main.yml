@@ -8,7 +8,7 @@
 
 - name: Add CRI-O apt repository.
   ansible.builtin.apt_repository:
-    repo: "https://pkgs.k8s.io/addons:/cri-o:/v1.29/deb/ /"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/cri-o.asc] https://pkgs.k8s.io/addons:/cri-o:/v1.29/deb/ /"
     state: present
 
 
