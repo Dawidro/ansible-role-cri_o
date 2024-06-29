@@ -2,7 +2,7 @@
 
 - name: Add Kubernetes apt repository key.
   ansible.builtin.get_url:
-    url: "ttps://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key"
+    url: "https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key"
     dest: /etc/apt/keyrings/cri-o-apt-keyring.gpg
     mode: '0644'
     force: true
