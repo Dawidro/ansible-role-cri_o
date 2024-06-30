@@ -32,12 +32,7 @@
 
 - name: Remove 100-crio-bridge.conflist
   file:
-    path: "/etc/cni/net.d/100-crio-bridge.conflist"
-    state: "absent"
-
-- name: Remove 200-loopback.conflist
-  file:
-    path: "/etc/cni/net.d/200-loopback.conflist"
+    path: "/etc/cni/net.d/11-crio-ipv4-bridge.conflist"
     state: "absent"
 
 - name: Enable CRI-O Service
