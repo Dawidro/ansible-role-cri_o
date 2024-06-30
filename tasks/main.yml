@@ -26,6 +26,7 @@
     packages:
       - cri-o
       - cri-tools
+      - cri-o-runc
 
 - name: Reload configs
   systemd: daemon_reload=yes
