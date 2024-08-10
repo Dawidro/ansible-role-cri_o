@@ -1,14 +1,14 @@
 ---
 - name: Add CRI-O apt repository key.
   ansible.builtin.get_url:
-    url: "https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/Release.key"
+    url: "https://pkgs.k8s.io/addons:/cri-o:/stable:/1.30:/deb/Release.key"
     dest: /etc/apt/trusted.gpg.d/cri-o-apt-keyring.asc
     mode: '0644'
     force: true
 
 - name: Add CRI-O apt repository.
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/cri-o-apt-keyring.asc] https://pkgs.k8s.io/addons:/cri-o:/prerelease:/main/deb/ /"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/cri-o-apt-keyring.asc] https://pkgs.k8s.io/addons:/cri-o:/stable:/1.30:/deb/ /"
     state: present
     update_cache: yes
 
@@ -24,8 +24,8 @@
     state: present
   vars:
     packages:
-      - cri-o=1.30.4
-      - cri-tools=1.30.4
+      - cri-o
+      - cri-tools
 
 - name: Reload configs
   systemd: daemon_reload=yes
