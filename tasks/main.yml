@@ -24,8 +24,8 @@
     state: present
   vars:
     packages:
-      - cri-o
-      - cri-tools
+      - cri-o=1.30.4
+      - cri-tools=1.30.4
 
 - name: Reload configs
   systemd: daemon_reload=yes
